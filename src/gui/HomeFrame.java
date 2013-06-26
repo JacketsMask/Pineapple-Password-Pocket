@@ -318,7 +318,7 @@ public class HomeFrame extends javax.swing.JFrame {
             pocket.addEntry(createdEntry);
             clearFilter();
         }
-
+        pocket.savePasswords();
     }//GEN-LAST:event_editListingButtonActionPerformed
 
     private void locationFilterTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_locationFilterTextFieldKeyReleased
