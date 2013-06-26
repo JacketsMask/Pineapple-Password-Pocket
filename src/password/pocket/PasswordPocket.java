@@ -8,6 +8,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -44,14 +45,16 @@ public class PasswordPocket implements Serializable {
      * Creates a new empty PasswordPocket, and generate a key from the user's
      * plaintext password.
      */
-    public PasswordPocket(String masterPassword) {
+    public PasswordPocket(char[] masterPassword) {
         //Don't allow empty passwords
-        if (masterPassword.equals("")) {
+        if (masterPassword.length == 0) {
             System.exit(1);
         }
         //Initalize cryptography variables
         pbeParamSpec = new PBEParameterSpec("seven777".getBytes(), 77); // salt
-        pbeKeySpec = new PBEKeySpec(masterPassword.toCharArray()); // plaintext password
+        pbeKeySpec = new PBEKeySpec(masterPassword);
+        //Clear master password
+        Arrays.fill(masterPassword, '0');
         try {
             //Generate Key
             SecretKeyFactory keyFac = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
@@ -63,6 +66,24 @@ public class PasswordPocket implements Serializable {
         }
         //Create an empty HashMap in case an existing file can't be loaded
         passwords = new ArrayList<>();
+    }
+
+    /**
+     * Updates the master password to a new password, then re-encrypts the
+     * passwords with the new one.
+     *
+     * @param newPassword the new password
+     */
+    public void changeMasterPasswordKey(char[] newPassword) {
+        try {
+            pbeKeySpec = new PBEKeySpec(newPassword);
+            SecretKeyFactory keyFac = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
+            pbeKey = keyFac.generateSecret(pbeKeySpec);
+            savePasswords();
+            Arrays.fill(newPassword, '0');
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(PasswordPocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

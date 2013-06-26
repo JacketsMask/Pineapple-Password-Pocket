@@ -53,6 +53,6 @@ public class Entry implements Serializable {
 
     @Override
     public String toString() {
-        return login + "@" + location;
+        return location + ":" + login;
     }
 }

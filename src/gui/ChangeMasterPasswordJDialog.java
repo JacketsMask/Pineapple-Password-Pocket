@@ -4,15 +4,15 @@ import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
- * Allows a user to enter their master password for further use.
+ * Allows a user to change their master password.
  *
  * @author Jacob Dorman
  */
-public class MasterPasswordJDialog extends javax.swing.JDialog {
+public class ChangeMasterPasswordJDialog extends javax.swing.JDialog {
 
     private boolean windowExited;
 
-    public MasterPasswordJDialog(java.awt.Frame parent, boolean modal) {
+    public ChangeMasterPasswordJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         windowExited = true;
@@ -47,7 +47,7 @@ public class MasterPasswordJDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gate Keeper");
 
-        passwordPromptLabel.setText("Enter master password:");
+        passwordPromptLabel.setText("Enter new master password:");
 
         submitButton.setText("Submit");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -67,24 +67,26 @@ public class MasterPasswordJDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(passwordPromptLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(securePasswordTextField)
-                .addGap(11, 11, 11))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(submitButton)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(passwordPromptLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(submitButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(securePasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordPromptLabel)
-                    .addComponent(securePasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(passwordPromptLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(securePasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(submitButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

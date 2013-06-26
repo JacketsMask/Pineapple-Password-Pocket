@@ -43,7 +43,7 @@ public class GUILauncher {
                     + "encrypted passwords.", null, JOptionPane.INFORMATION_MESSAGE);
         }
         //Verify that a legitimate password is chosen
-        String input;
+        char[] input;
         do {
             //Create a dialog to capture receive master password
             MasterPasswordJDialog dialog = new MasterPasswordJDialog(null, true);

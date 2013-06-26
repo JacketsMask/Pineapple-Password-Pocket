@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.event.KeyEvent;
 import password.pocket.Entry;
 import javax.swing.JOptionPane;
 
@@ -18,6 +19,7 @@ public class EntryDialog extends javax.swing.JDialog {
      */
     public EntryDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(parent);
         initComponents();
     }
 
@@ -82,6 +84,12 @@ public class EntryDialog extends javax.swing.JDialog {
             }
         });
 
+        passwordTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                passwordTextFieldKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,9 +141,21 @@ public class EntryDialog extends javax.swing.JDialog {
             newEntry = new Entry(location, login, password);
             dispose();
         } else {
-            JOptionPane.showConfirmDialog(this, "Invalid input.");
+            JOptionPane.showMessageDialog(this, "Invalid input.", "Invalid input", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_submitButtonActionPerformed
+
+    /**
+     * Allow enter to submit in the last field.
+     *
+     * @param evt
+     */
+    private void passwordTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordTextFieldKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            submitButtonActionPerformed(null);
+        }
+
+    }//GEN-LAST:event_passwordTextFieldKeyReleased
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

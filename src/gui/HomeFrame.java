@@ -4,7 +4,13 @@ import password.pocket.Entry;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import password.pocket.PasswordPocket;
@@ -67,6 +73,8 @@ public class HomeFrame extends javax.swing.JFrame {
         loginDisplayLabel = new javax.swing.JLabel();
         locationDisplayLabel = new javax.swing.JLabel();
         editListingButton = new javax.swing.JButton();
+        dumpButton = new javax.swing.JButton();
+        changeMasterPasswordButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -127,6 +135,20 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
+        dumpButton.setText("Dump Passwords To Text File");
+        dumpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dumpButtonActionPerformed(evt);
+            }
+        });
+
+        changeMasterPasswordButton.setText("Change Master Password");
+        changeMasterPasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeMasterPasswordButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -140,24 +162,30 @@ public class HomeFrame extends javax.swing.JFrame {
                     .addComponent(addListingButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(editListingButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(resultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(resultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(loginDisplayLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(passwordDisplayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(locationDisplayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(copyPasswordButton)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(46, 46, 46))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(loginDisplayLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(locationDisplayLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(passwordDisplayLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(dumpButton)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(changeMasterPasswordButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,31 +193,33 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(locationNameLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(locationFilterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(locationDisplayLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(loginDisplayLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(passwordDisplayLabel))))
-                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(locationDisplayLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(loginDisplayLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(passwordDisplayLabel))
+                        .addGap(49, 49, 49)
+                        .addComponent(copyPasswordButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(changeMasterPasswordButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dumpButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(locationNameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(locationFilterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
                         .addComponent(addListingButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(editListingButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(removeListingButton)
-                            .addComponent(copyPasswordButton, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addComponent(removeListingButton))
                     .addComponent(resultScrollPane))
                 .addContainerGap())
         );
@@ -218,11 +248,6 @@ public class HomeFrame extends javax.swing.JFrame {
         }
         resultList.clearSelection();
     }
-    private void locationFilterTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_locationFilterTextFieldKeyReleased
-        String searchQuery = locationFilterTextField.getText();
-        ArrayList<Entry> results = pocket.searchPasswords(searchQuery);
-        generateListFromArrayList(results);
-    }//GEN-LAST:event_locationFilterTextFieldKeyReleased
 
     private void resultListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_resultListValueChanged
         Entry selectedValue = (Entry) resultList.getSelectedValue();
@@ -295,9 +320,48 @@ public class HomeFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_editListingButtonActionPerformed
+
+    private void locationFilterTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_locationFilterTextFieldKeyReleased
+        String searchQuery = locationFilterTextField.getText();
+        ArrayList<Entry> results = pocket.searchPasswords(searchQuery);
+        generateListFromArrayList(results);
+    }//GEN-LAST:event_locationFilterTextFieldKeyReleased
+
+    /**
+     * Dump the contents of the password list into a plaintext file.
+     *
+     * @param evt
+     */
+    private void dumpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dumpButtonActionPerformed
+        try (PrintWriter writer = new PrintWriter("output.txt")) {
+            ArrayList<Entry> passwords = pocket.getPasswords();
+            for (Entry e : passwords) {
+                writer.println(e.getLocation());
+                writer.println(e.getLogin());
+                writer.println(e.getPassword());
+                writer.println();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HomeFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_dumpButtonActionPerformed
+
+    /**
+     * Change the master password.
+     *
+     * @param evt
+     */
+    private void changeMasterPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeMasterPasswordButtonActionPerformed
+        ChangeMasterPasswordJDialog dialog = new ChangeMasterPasswordJDialog(this, true);
+        dialog.setVisible(true);
+        char[] newPassword = dialog.getInput();
+        pocket.changeMasterPasswordKey(newPassword);
+    }//GEN-LAST:event_changeMasterPasswordButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addListingButton;
+    private javax.swing.JButton changeMasterPasswordButton;
     private javax.swing.JButton copyPasswordButton;
+    private javax.swing.JButton dumpButton;
     private javax.swing.JButton editListingButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
