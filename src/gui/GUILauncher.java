@@ -17,9 +17,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class GUILauncher {
 
     public static void createTestValues(PasswordPocket pocket) {
-        pocket.addEntry("test1.com", "user", "test_password1");
-        pocket.addEntry("test2.com", "user", "test_password2");
-        pocket.addEntry("test3.com", "user", "test_password3");
+        pocket.addEntry("test1.com", "user", "test_password1".toCharArray());
+        pocket.addEntry("test2.com", "user", "test_password2".toCharArray());
+        pocket.addEntry("test3.com", "user", "test_password3".toCharArray());
         pocket.savePasswords();
     }
 

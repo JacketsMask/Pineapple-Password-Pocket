@@ -173,7 +173,7 @@ public class PasswordPocket implements Serializable {
      * @param login
      * @param password
      */
-    public void addEntry(String location, String login, String password) {
+    public void addEntry(String location, String login, char[] password) {
         passwords.add(new Entry(location, login, password));
     }
 

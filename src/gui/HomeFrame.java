@@ -4,8 +4,6 @@ import password.pocket.Entry;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import password.pocket.PasswordPocket;
+import password.string.safety.StringConverter;
 
 /**
  * A graphical interface for manipulating the PasswordPocket.
@@ -257,7 +256,7 @@ public class HomeFrame extends javax.swing.JFrame {
             locationDisplayLabel.setVisible(true);
             loginDisplayLabel.setText(selectedValue.getLogin());
             loginDisplayLabel.setVisible(true);
-            passwordDisplayLabel.setText(selectedValue.getPassword());
+            passwordDisplayLabel.setText(StringConverter.convertToString(selectedValue.getPassword()));
             passwordDisplayLabel.setVisible(true);
             editListingButton.setEnabled(true);
             removeListingButton.setEnabled(true);

@@ -3,6 +3,7 @@ package gui;
 import java.awt.event.KeyEvent;
 import password.pocket.Entry;
 import javax.swing.JOptionPane;
+import password.string.safety.StringConverter;
 
 /**
  * A dialog that accepts data needed to create a new Entry for the
@@ -37,7 +38,7 @@ public class EntryDialog extends javax.swing.JDialog {
         initComponents();
         locationTextField.setText(entry.getLocation());
         loginTextField.setText(entry.getLogin());
-        passwordTextField.setText(entry.getPassword());
+        passwordTextField.setText(StringConverter.convertToString(entry.getPassword()));
     }
 
     /**
@@ -138,7 +139,7 @@ public class EntryDialog extends javax.swing.JDialog {
         String password = passwordTextField.getText();
         //If input is valid, create the new entry
         if (!location.equals("") && !login.equals("") && !password.equals("")) {
-            newEntry = new Entry(location, login, password);
+            newEntry = new Entry(location, login, password.toCharArray());
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Invalid input.", "Invalid input", JOptionPane.WARNING_MESSAGE);

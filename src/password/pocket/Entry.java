@@ -6,13 +6,13 @@ import java.io.Serializable;
  * An Entry in the PasswordPocket consists of a location (such as a site, or
  * game), a login name, and a password.
  *
- * @author Jacob
+ * @author Jacob Dorman
  */
 public class Entry implements Serializable {
 
     private String location;
     private String login;
-    private String password;
+    private char[] password;
 
     /**
      * Creates a new Entry with the passed location, login, and password
@@ -21,7 +21,7 @@ public class Entry implements Serializable {
      * @param login
      * @param password
      */
-    public Entry(String location, String login, String password) {
+    public Entry(String location, String login, char[] password) {
         this.location = location;
         this.login = login;
         this.password = password;
@@ -43,11 +43,11 @@ public class Entry implements Serializable {
         this.login = login;
     }
 
-    public String getPassword() {
+    public char[] getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(char[] password) {
         this.password = password;
     }
 
